@@ -1,0 +1,12 @@
+diff -upNr branch_softfloat/CMakeLists.txt branch_softfloat.patched/CMakeLists.txt
+--- branch_softfloat/CMakeLists.txt	2019-06-29 19:06:29.590010151 +0200
++++ branch_softfloat.patched/CMakeLists.txt	2019-06-29 19:58:51.753413774 +0200
+@@ -82,7 +82,7 @@ endif(PCAP_FOUND)
+ # CPP Definitions:
+ # ################
+ 
+-add_definitions(-DCONFDIR=\"/etc\")
++add_definitions(-DCONFDIR=\"/snap/previous/current/etc\")
+ 
+ # Test for large file support:
+ execute_process(COMMAND getconf LFS_CFLAGS

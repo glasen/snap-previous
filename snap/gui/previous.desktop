@@ -1,0 +1,12 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Exec=previous %U
+Icon=${SNAP}/meta/gui/icon.png
+StartupNotify=true
+Terminal=false
+Categories=Utility;Accessibility;
+GenericName=Next Emulator
+Keywords=NextStep, Emulator
+Name=Previous
+
