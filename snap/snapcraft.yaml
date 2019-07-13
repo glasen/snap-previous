@@ -38,6 +38,8 @@ parts:
   local:
     source: snap/local
     plugin: dump
+    override-prime: |
+      /bin/true
     
   previous:
     plugin: autotools
@@ -61,12 +63,13 @@ parts:
       cp ${SNAPCRAFT_STAGE}/dimension_eeprom.bin ${SNAPCRAFT_PART_INSTALL}/usr/share/previous
       cp ${SNAPCRAFT_STAGE}/previous.cfg ${SNAPCRAFT_PART_INSTALL}/etc
       mv ${SNAPCRAFT_PART_INSTALL}/snap/previous/current/usr/bin/Previous ${SNAPCRAFT_PART_INSTALL}/usr/bin/previous
+      strip ${SNAPCRAFT_PART_INSTALL}/usr/bin/previous
       mv ${SNAPCRAFT_PART_INSTALL}/snap/previous/current/usr/bin/* ${SNAPCRAFT_PART_INSTALL}/usr/share/previous
       mv ${SNAPCRAFT_PART_INSTALL}/usr/lib/x86_64-linux-gnu/pulseaudio/* ${SNAPCRAFT_PART_INSTALL}/usr/lib/x86_64-linux-gnu/
-      rm -r ${SNAPCRAFT_PART_INSTALL}/snap/ ${SNAPCRAFT_PART_INSTALL}/usr/lib/x86_64-linux-gnu/pulseaudio/ ${SNAPCRAFT_STAGE}/dimension_eeprom.bin ${SNAPCRAFT_STAGE}/confdir.patch
+      rm -r ${SNAPCRAFT_PART_INSTALL}/snap/ ${SNAPCRAFT_PART_INSTALL}/usr/lib/x86_64-linux-gnu/pulseaudio/
     stage-packages:
       - libpcap0.8
       - libpng16-16
       - libsdl2-2.0-0
-    after: 
+    after:
       - local
