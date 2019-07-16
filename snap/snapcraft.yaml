@@ -21,17 +21,16 @@ apps:
   previous:
     command: usr/bin/previous
     plugs:
-      - alsa
       - desktop
-      - desktop-legacy
-      - gsettings
-      - home
-      - opengl
-      - pulseaudio
-      - network
-      - unity7
       - wayland
       - x11
+      - desktop-legacy
+      - home
+      - pulseaudio
+      - screen-inhibit-control
+      - process-control
+      - joystick
+
 
 parts:
 
