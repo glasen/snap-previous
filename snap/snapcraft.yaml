@@ -22,6 +22,7 @@ apps:
     command: usr/bin/previous
     plugs:
       - desktop
+      - opengl
       - wayland
       - x11
       - desktop-legacy
