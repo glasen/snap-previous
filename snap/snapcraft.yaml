@@ -19,7 +19,9 @@ icon: snap/gui/previous.png
 
 apps:
   previous:
-    command: usr/bin/previous
+    command: desktop-launch $SNAP/previous
+    environment: 
+      LD_LIBRARY_PATH: "$SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/pulseaudio"
     plugs:
       - desktop
       - opengl
@@ -29,12 +31,8 @@ apps:
       - home
       - pulseaudio
       - screen-inhibit-control
-      - process-control
-      - joystick
-
 
 parts:
-
   local:
     source: snap/local
     plugin: dump
@@ -47,13 +45,13 @@ parts:
     source-type: svn
     source: https://svn.code.sf.net/p/previous/code/trunk
     build-packages:
-      - build-essential
       - cmake
       - libsdl2-dev
-      - libreadline-dev
-      - libpng-dev
-      - libpcap-dev
       - zlib1g-dev
+      - libpng-dev
+      - libreadline-dev
+      - libpcap-dev
+      - python
     override-pull: |
       snapcraftctl pull
       patch -p1 < ${SNAPCRAFT_STAGE}/confdir.patch
@@ -63,15 +61,23 @@ parts:
       cp ${SNAPCRAFT_STAGE}/dimension_eeprom.bin ${SNAPCRAFT_PART_INSTALL}/usr/share/previous
       cp ${SNAPCRAFT_STAGE}/previous.cfg ${SNAPCRAFT_PART_INSTALL}/etc
       mv ${SNAPCRAFT_PART_INSTALL}/snap/previous/current/usr/bin/Previous ${SNAPCRAFT_PART_INSTALL}/usr/bin/previous
-      strip ${SNAPCRAFT_PART_INSTALL}/usr/bin/previous
+      strip ${SNAPCRAFT_PART_INSTALL}/usr/bin/previous 2>/dev/null || /bin/true
       mv ${SNAPCRAFT_PART_INSTALL}/snap/previous/current/usr/bin/* ${SNAPCRAFT_PART_INSTALL}/usr/share/previous
-      mv ${SNAPCRAFT_PART_INSTALL}/usr/lib/x86_64-linux-gnu/pulseaudio/* ${SNAPCRAFT_PART_INSTALL}/usr/lib/x86_64-linux-gnu/
-      rm -r ${SNAPCRAFT_PART_INSTALL}/snap/ ${SNAPCRAFT_PART_INSTALL}/usr/lib/x86_64-linux-gnu/pulseaudio/
     stage-packages:
-      - libpcap0.8
-      - libpng16-16
-      - libglu1-mesa
-      - libgl1-mesa-glx
       - libsdl2-2.0-0
+      - libpng16-16
+      - libpulse0
+      - libpcap0.8
+      - libglu1-mesa
     after:
+      - desktop-glib-only
       - local
+
+  desktop-glib-only:
+      build-packages:
+        - libglib2.0-dev
+      plugin: make
+      source: https://github.com/ubuntu/snapcraft-desktop-helpers.git
+      source-subdir: glib-only
+      stage-packages:
+        - libglib2.0-bin
