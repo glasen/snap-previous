@@ -70,6 +70,8 @@ parts:
     stage-packages:
       - libpcap0.8
       - libpng16-16
+      - libglu1-mesa
+      - libgl1-mesa-dri
       - libsdl2-2.0-0
     after:
       - local
