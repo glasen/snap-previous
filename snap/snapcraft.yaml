@@ -19,7 +19,7 @@ icon: snap/gui/previous.png
 
 apps:
   previous:
-    command: desktop-launch $SNAP/previous
+    command: desktop-launch $SNAP/usr/bin/previous
     environment: 
       LD_LIBRARY_PATH: "$SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/pulseaudio"
     plugs:
