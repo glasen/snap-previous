@@ -43,7 +43,7 @@ parts:
     plugin: autotools
     configflags: [--prefix=/snap/previous/current/usr]
     source-type: svn
-    source: https://svn.code.sf.net/p/previous/code/trunk
+    source: https://svn.code.sf.net/p/previous/code/branches/branch_softfloat
     build-packages:
       - cmake
       - libsdl2-dev
