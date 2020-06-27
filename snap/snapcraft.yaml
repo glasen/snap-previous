@@ -1,6 +1,6 @@
 name: previous
 version: '2.2svn'
-base: core18
+base: core20
 summary: Previous is a Next computer hardware emulator.
 description: |
   Previous is a Next computer hardware emulator. It aims to emulate a Next Cube or a Next Station with all its peripheral.
@@ -19,7 +19,10 @@ icon: snap/gui/previous.png
 
 apps:
   previous:
-    command: desktop-launch $SNAP/usr/bin/previous
+    adapter: full
+    command: usr/bin/previous
+    command-chain:
+      - bin/desktop-launch
     environment: 
       LD_LIBRARY_PATH: "$SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/pulseaudio"
     plugs:
@@ -41,23 +44,24 @@ parts:
     
   previous:
     plugin: autotools
-    configflags: [--prefix=/snap/previous/current/usr]
+    autotools-configure-parameters: [--prefix=/snap/previous/current/usr]
     source-type: svn
     source: https://svn.code.sf.net/p/previous/code/trunk
     build-packages:
+      - build-essential
       - cmake
       - libsdl2-dev
       - zlib1g-dev
       - libpng-dev
       - libreadline-dev
       - libpcap-dev
-      - python
+      - python3
     override-pull: |
       snapcraftctl pull
       patch -p1 < ${SNAPCRAFT_STAGE}/confdir.patch
     override-build: |
       snapcraftctl build
-      mkdir -p ${SNAPCRAFT_PART_INSTALL}/usr/share/previous
+      mkdir -p ${SNAPCRAFT_PART_INSTALL}/usr/share/previous ${SNAPCRAFT_PART_INSTALL}/usr/bin
       cp ${SNAPCRAFT_STAGE}/dimension_eeprom.bin ${SNAPCRAFT_PART_INSTALL}/usr/share/previous
       cp ${SNAPCRAFT_STAGE}/previous.cfg ${SNAPCRAFT_PART_INSTALL}/etc
       mv ${SNAPCRAFT_PART_INSTALL}/snap/previous/current/usr/bin/Previous ${SNAPCRAFT_PART_INSTALL}/usr/bin/previous
